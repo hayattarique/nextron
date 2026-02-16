@@ -4,6 +4,7 @@ import { Mail, Phone, MapPin, Linkedin, Facebook } from 'lucide-react';
 import { navLinks } from '@/lib/data';
 import { motion } from 'framer-motion';
 import { easings, durations } from '@/lib/animations';
+import Logo from '@/components/ui/Logo';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
@@ -28,19 +29,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Company Info */}
           <div className="space-y-4">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-gradient-to-br from-industrial-blue to-blue-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">N</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-white font-bold text-lg leading-tight">
-                  NEXTRON
-                </span>
-                <span className="text-gray-400 text-xs leading-tight">
-                  Electrical & Instrumentation
-                </span>
-              </div>
-            </div>
+            <Logo variant="full" size="lg" />
             <p className="text-gray-400 text-sm">
               Delivering electrical and instrumentation excellence for critical
               industrial operations across oil & gas, petrochemical, and power
@@ -177,6 +166,25 @@ export default function Footer() {
                 Terms of Service
               </motion.a>
             </div>
+          </div>
+          
+          {/* Developer Credit */}
+          <div className="mt-6 text-center">
+            <p className="text-gray-500 text-sm">
+              Designed & Developed by{' '}
+              <motion.a
+                href="https://tariqhayat.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-industrial-blue transition-colors duration-300 font-medium"
+                whileHover={{ 
+                  scale: 1.05,
+                  transition: { duration: durations.fast, ease: easings.mechanical },
+                }}
+              >
+                Tarique Hayat
+              </motion.a>
+            </p>
           </div>
         </div>
       </div>

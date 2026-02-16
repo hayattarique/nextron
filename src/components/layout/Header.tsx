@@ -5,6 +5,7 @@ import { Menu, X } from 'lucide-react';
 import { navLinks } from '@/lib/data';
 import { motion, AnimatePresence } from 'framer-motion';
 import { easings, durations } from '@/lib/animations';
+import Logo from '@/components/ui/Logo';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -49,19 +50,9 @@ export default function Header() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex items-center space-x-3"
+            className="flex items-center"
           >
-            <div className="w-10 h-10 bg-gradient-to-br from-industrial-blue to-blue-600 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">N</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="text-white font-bold text-lg leading-tight">
-                NEXTRON
-              </span>
-              <span className="text-gray-400 text-xs leading-tight">
-                Electrical & Instrumentation
-              </span>
-            </div>
+            <Logo variant="full" size="md" />
           </motion.div>
 
           {/* Desktop Navigation */}

@@ -11,7 +11,7 @@ interface LogoProps {
 
 export default function Logo({ className = '', variant = 'full', size = 'md' }: LogoProps) {
   const sizes = {
-    sm: { width: variant === 'full' ? 200 : 50, height: 60 },
+    sm: { width: variant === 'full' ? 160 : 50, height: 50 },
     md: { width: variant === 'full' ? 280 : 70, height: 70 },
     lg: { width: variant === 'full' ? 350 : 90, height: 90 },
   };

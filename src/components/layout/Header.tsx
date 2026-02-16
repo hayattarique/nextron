@@ -43,16 +43,21 @@ export default function Header() {
           : 'bg-transparent'
       }`}
     >
-      <nav className="section-container">
+      <nav className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex items-center"
+            className="flex items-center justify-start flex-shrink-0 -ml-1 md:ml-0"
           >
-            <Logo variant="full" size="md" />
+            <div className="hidden md:block">
+              <Logo variant="full" size="md" />
+            </div>
+            <div className="block md:hidden">
+              <Logo variant="full" size="sm" />
+            </div>
           </motion.div>
 
           {/* Desktop Navigation */}

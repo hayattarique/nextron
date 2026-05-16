@@ -6,7 +6,7 @@ export const siteConfig = {
   contact: {
     email:     process.env.NEXT_PUBLIC_CONTACT_EMAIL     ?? 'nextronei@gmail.com',
     phone:     process.env.NEXT_PUBLIC_CONTACT_PHONE     ?? '+966-503350038',
-    emergency: process.env.NEXT_PUBLIC_EMERGENCY_PHONE   ?? '+966-143253947',
+    emergency: process.env.NEXT_PUBLIC_EMERGENCY_PHONE   ?? '+966-503350038',
     whatsapp:  process.env.NEXT_PUBLIC_WHATSAPP_PHONE    ?? '+966-503350038',
   },
   social: {

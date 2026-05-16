@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Send, Building2 } from 'lucide-react';
+import { Mail, Phone, MapPin, Send, Building2, CheckCircle } from 'lucide-react';
 import { 
   staggerContainer,
   fadeUp,
@@ -14,52 +14,75 @@ import {
   easings,
   durations,
   viewportConfig,
-  useReducedMotion,
 } from '@/lib/motion';
+import { useReducedMotion } from '@/providers/MotionPreferenceProvider';
+import { siteConfig } from '@/lib/config';
+import { validateEmail } from '@/lib/utils';
+
+const EMPTY_FORM = {
+  name: '',
+  email: '',
+  company: '',
+  phone: '',
+  subject: '',
+  message: '',
+};
 
 export default function Contact() {
   const ref = useRef(null);
   const isInView = useInView(ref, viewportConfig.standard);
   const prefersReducedMotion = useReducedMotion();
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    company: '',
-    phone: '',
-    subject: '',
-    message: '',
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (error) setError('');
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateEmail(formData.email)) {
+      setError('Please enter a valid email address.');
+      return;
+    }
+    if (formData.message.trim().length < 10) {
+      setError('Please provide more detail in your message (minimum 10 characters).');
+      return;
+    }
+
     setIsSubmitting(true);
+    setError('');
 
-    // Simulate form submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    console.log('Form submitted:', formData);
-    alert('Thank you for your inquiry. We will contact you shortly.');
-
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      company: '',
-      phone: '',
-      subject: '',
-      message: '',
-    });
-    setIsSubmitting(false);
+    try {
+      const endpoint = process.env.NEXT_PUBLIC_FORM_ENDPOINT;
+      if (endpoint) {
+        const res = await fetch(endpoint, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            company: formData.company,
+            phone: formData.phone,
+            subject: formData.subject,
+            message: formData.message,
+          }),
+        });
+        if (!res.ok) throw new Error('Submission failed');
+      }
+      setFormData(EMPTY_FORM);
+      setSubmitted(true);
+    } catch {
+      setError('There was a problem sending your message. Please try again or call us directly.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -111,17 +134,10 @@ export default function Contact() {
                   <div className="flex-1">
                     <h3 className="text-white font-semibold mb-2">Email Us</h3>
                     <a
-                      href="mailto:info@nextron-ei.com"
+                      href={`mailto:${siteConfig.contact.email}`}
                       className="text-gray-400 hover:text-industrial-blue transition-colors text-sm"
                     >
-                      info@nextron-ei.com
-                    </a>
-                    <br />
-                    <a
-                      href="mailto:projects@nextron-ei.com"
-                      className="text-gray-400 hover:text-industrial-blue transition-colors text-sm"
-                    >
-                      projects@nextron-ei.com
+                      {siteConfig.contact.email}
                     </a>
                   </div>
                 </div>
@@ -143,20 +159,30 @@ export default function Contact() {
                   <div className="flex-1">
                     <h3 className="text-white font-semibold mb-2">Call Us</h3>
                     <a
-                      href="tel:+1234567890"
+                      href={`tel:${siteConfig.contact.phone}`}
                       className="text-gray-400 hover:text-industrial-blue transition-colors text-sm block"
                     >
-                      +1 (234) 567-8900
+                      {siteConfig.contact.phone}
                     </a>
-                    <a
-                      href="tel:+1234567891"
-                      className="text-gray-400 hover:text-industrial-blue transition-colors text-sm block"
-                    >
-                      +1 (234) 567-8901 (Emergency)
-                    </a>
-                    <p className="text-gray-500 text-xs mt-2">
-                      24/7 Emergency Support
-                    </p>
+                    {siteConfig.contact.whatsapp && (
+                      <a
+                        href={`https://wa.me/${siteConfig.contact.whatsapp.replace(/\D/g, '')}`}
+                        className="text-gray-400 hover:text-industrial-blue transition-colors text-sm block"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        WhatsApp: {siteConfig.contact.whatsapp}
+                      </a>
+                    )}
+                    {siteConfig.contact.emergency && (
+                      <a
+                        href={`tel:${siteConfig.contact.emergency}`}
+                        className="text-gray-400 hover:text-industrial-blue transition-colors text-sm block"
+                      >
+                        Emergency: {siteConfig.contact.emergency}
+                      </a>
+                    )}
+                    <p className="text-gray-500 text-xs mt-2">24/7 Support Available</p>
                   </div>
                 </div>
               </motion.div>
@@ -177,9 +203,9 @@ export default function Contact() {
                   <div className="flex-1">
                     <h3 className="text-white font-semibold mb-2">Visit Us</h3>
                     <p className="text-gray-400 text-sm">
-                      Industrial District<br />
-                      Energy Hub Building<br />
-                      Suite 500
+                      Omar Bin Abdulaziz Road, 3679<br />
+                      Al Balad, Yanbu 46424<br />
+                      Saudi Arabia
                     </p>
                   </div>
                 </div>
@@ -197,8 +223,8 @@ export default function Contact() {
                   <div className="flex-1">
                     <h3 className="text-white font-semibold mb-2">Office Hours</h3>
                     <p className="text-gray-300 text-sm">
-                      Monday - Friday: 8:00 AM - 6:00 PM<br />
-                      Saturday: 9:00 AM - 2:00 PM<br />
+                      ⏱️ Sunday - Thursday:<br />
+                      08:00 AM to 08:00 PM<br />
                       <span className="text-industrial-blue font-medium">
                         Emergency Services: 24/7
                       </span>
@@ -211,6 +237,26 @@ export default function Contact() {
             {/* Contact Form */}
             <motion.div variants={fadeUp} className="lg:col-span-2">
               <div className="card-industrial">
+                {submitted ? (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="flex flex-col items-center justify-center py-16 space-y-4 text-center"
+                  >
+                    <CheckCircle className="text-industrial-blue" size={52} />
+                    <h3 className="text-2xl font-bold text-white">Message Sent</h3>
+                    <p className="text-gray-400 max-w-sm">
+                      Thank you for your enquiry. A member of our team will
+                      contact you shortly.
+                    </p>
+                    <button
+                      onClick={() => setSubmitted(false)}
+                      className="btn-secondary mt-4"
+                    >
+                      Send another message
+                    </button>
+                  </motion.div>
+                ) : (
                 <form onSubmit={handleSubmit} className="space-y-6">
                   {/* Name and Email Row */}
                   <div className="grid sm:grid-cols-2 gap-6">
@@ -345,25 +391,29 @@ export default function Contact() {
                   </div>
 
                   {/* Submit Button */}
-                  <div className="flex items-center justify-between pt-2">
-                    <p className="text-gray-400 text-sm">
-                      * Required fields
-                    </p>
-                    <motion.button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="btn-primary flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
-                      whileHover={!isSubmitting && !prefersReducedMotion ? { 
-                        ...buttonHover,
-                        boxShadow: '0 10px 30px rgba(37, 99, 235, 0.3)',
-                      } : {}}
-                      whileTap={!isSubmitting && !prefersReducedMotion ? buttonPress : {}}
-                    >
-                      <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
-                      <Send size={18} />
-                    </motion.button>
+                  <div className="flex flex-col gap-3 pt-2">
+                    {error && (
+                      <p className="text-red-400 text-sm" role="alert">{error}</p>
+                    )}
+                    <div className="flex items-center justify-between">
+                      <p className="text-gray-400 text-sm">* Required fields</p>
+                      <motion.button
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="btn-primary flex items-center space-x-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                        whileHover={!isSubmitting && !prefersReducedMotion ? { 
+                          ...buttonHover,
+                          boxShadow: '0 10px 30px rgba(37, 99, 235, 0.3)',
+                        } : {}}
+                        whileTap={!isSubmitting && !prefersReducedMotion ? buttonPress : {}}
+                      >
+                        <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+                        <Send size={18} />
+                      </motion.button>
+                    </div>
                   </div>
                 </form>
+                )}
               </div>
             </motion.div>
           </div>
@@ -371,12 +421,12 @@ export default function Contact() {
           {/* Bottom CTA */}
           <motion.div variants={fadeUp} className="text-center">
             <p className="text-gray-400 text-lg">
-              For urgent matters or emergency support, call our 24/7 hotline:{' '}
+              For urgent matters or emergency support, call our 24/7 line:{' '}
               <a
-                href="tel:+1234567891"
+                href={`tel:${siteConfig.contact.emergency || siteConfig.contact.phone}`}
                 className="text-industrial-blue font-semibold hover:text-blue-400 transition-colors"
               >
-                +1 (234) 567-8901
+                {siteConfig.contact.emergency || siteConfig.contact.phone}
               </a>
             </p>
           </motion.div>

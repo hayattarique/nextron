@@ -1,27 +1,15 @@
 'use client';
 
 import { Mail, Phone, MapPin, Linkedin, Facebook } from 'lucide-react';
-import { navLinks } from '@/lib/data';
+import { navLinks, services } from '@/lib/data';
 import { motion } from 'framer-motion';
-import { easings, durations } from '@/lib/animations';
+import { easings, durations } from '@/lib/motion';
 import Logo from '@/components/ui/Logo';
+import { scrollToSection } from '@/lib/utils';
+import { siteConfig } from '@/lib/config';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
 
   return (
     <footer className="bg-industrial-navy border-t border-industrial-steel/30">
@@ -29,7 +17,9 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           {/* Company Info */}
           <div className="space-y-4">
-            <Logo variant="full" size="lg" />
+            <div className="-mb-3">
+              <Logo variant="full" size="lg" />
+            </div>
             <p className="text-gray-400 text-sm">
               Delivering electrical and instrumentation excellence for critical
               industrial operations across oil & gas, petrochemical, and power
@@ -92,10 +82,9 @@ export default function Footer() {
           <div>
             <h3 className="text-white font-semibold mb-4">Our Services</h3>
             <ul className="space-y-2 text-sm text-gray-400">
-              <li>Electrical Services</li>
-              <li>Instrumentation Services</li>
-              <li>Commissioning & Startup</li>
-              <li>Maintenance & Shutdown</li>
+              {services.map((s) => (
+                <li key={s.id}>{s.title}</li>
+              ))}
             </ul>
           </div>
 
@@ -106,32 +95,32 @@ export default function Footer() {
               <li className="flex items-start space-x-3 text-sm text-gray-400">
                 <Mail size={18} className="mt-0.5 flex-shrink-0 text-industrial-blue" />
                 <motion.a 
-                  href="mailto:info@nextron-ei.com" 
+                  href={`mailto:${siteConfig.contact.email}`}
                   className="hover:text-industrial-blue transition-colors"
                   whileHover={{ 
                     x: 2,
                     transition: { duration: durations.fast },
                   }}
                 >
-                  info@nextron-ei.com
+                  {siteConfig.contact.email}
                 </motion.a>
               </li>
               <li className="flex items-start space-x-3 text-sm text-gray-400">
                 <Phone size={18} className="mt-0.5 flex-shrink-0 text-industrial-blue" />
                 <motion.a 
-                  href="tel:+1234567890" 
+                  href={`tel:${siteConfig.contact.phone}`}
                   className="hover:text-industrial-blue transition-colors"
                   whileHover={{ 
                     x: 2,
                     transition: { duration: durations.fast },
                   }}
                 >
-                  +1 (234) 567-8900
+                  {siteConfig.contact.phone}
                 </motion.a>
               </li>
               <li className="flex items-start space-x-3 text-sm text-gray-400">
                 <MapPin size={18} className="mt-0.5 flex-shrink-0 text-industrial-blue" />
-                <span>Industrial District, Energy Hub</span>
+                <span>Omar Bin Abdulaziz Road, 3679<br />Al Balad, Yanbu 46424<br />Saudi Arabia</span>
               </li>
             </ul>
           </div>

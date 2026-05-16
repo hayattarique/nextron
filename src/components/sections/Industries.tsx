@@ -3,18 +3,17 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Droplet, Factory, Wind, Zap, Beaker, Settings } from 'lucide-react';
+import { Droplet, Factory, Zap, Beaker, FlaskConical, LucideIcon } from 'lucide-react';
 import { industries } from '@/lib/data';
-import { easings, durations, staggers, distances } from '@/lib/animations';
+import { easings, durations, staggers, distances } from '@/lib/motion';
 
-const iconMap = {
-  Droplet: Droplet,
-  Factory: Factory,
-  Wind: Wind,
-  Zap: Zap,
-  Beaker: Beaker,
-  Settings: Settings,
+const INDUSTRY_ICONS: Record<string, LucideIcon> = {
+  Droplet, Factory, Zap, Beaker, FlaskConical,
 };
+
+function getIndustryIcon(name: string): LucideIcon {
+  return INDUSTRY_ICONS[name] ?? Factory;
+}
 
 export default function Industries() {
   const ref = useRef(null);
@@ -74,7 +73,7 @@ export default function Industries() {
           {/* Industries Grid */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {industries.map((industry) => {
-              const Icon = iconMap[industry.icon as keyof typeof iconMap];
+              const Icon = getIndustryIcon(industry.icon);
 
               return (
                 <motion.div

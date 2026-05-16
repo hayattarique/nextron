@@ -18,6 +18,7 @@ import {
   slowDrift,
   useReducedMotion,
 } from '@/lib/motion';
+import { scrollToSection } from '@/lib/utils';
 
 export default function Hero() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
@@ -36,20 +37,6 @@ export default function Hero() {
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
   }, [prefersReducedMotion]);
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-industrial-dark">
@@ -106,7 +93,7 @@ export default function Hero() {
                   transition: { duration: durations.fast, ease: easings.mechanical },
                 }}
               >
-                Trusted Engineering Partner since 1995
+                Skilled E&I manpower & field services
               </motion.span>
             </motion.div>
 
@@ -115,8 +102,8 @@ export default function Hero() {
               variants={heroTitle}
               className="heading-1 text-white"
             >
-              Power. Precision.{' '}
-              <span className="gradient-text">Performance.</span>
+              Skilled Technicians.{' '}
+              <span className="gradient-text">Fast Response.</span>
             </motion.h1>
 
             {/* Subheading */}
@@ -124,16 +111,16 @@ export default function Hero() {
               variants={heroSubtitle}
               className="body-large max-w-3xl mx-auto"
             >
-              Electrical & Instrumentation Excellence for Critical Industries
+              Nextron delivers trained E&I technicians, fast response, and reliable
+              execution at site for oil & gas, petrochemical, and power plants.
             </motion.p>
 
             <motion.p
               variants={heroSubtitle}
               className="text-gray-400 max-w-2xl mx-auto"
             >
-              Delivering comprehensive E&I solutions for oil & gas,
-              petrochemical, and power generation facilities with unwavering
-              commitment to safety, quality, and operational excellence.
+              We support EPC contractors, operating companies, and maintenance
+              teams during normal operation, shutdowns, and project execution.
             </motion.p>
 
             {/* CTA Buttons */}

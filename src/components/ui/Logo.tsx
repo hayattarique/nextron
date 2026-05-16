@@ -7,13 +7,15 @@ interface LogoProps {
   className?: string;
   variant?: 'full' | 'icon';
   size?: 'sm' | 'md' | 'lg';
+  /** Set true only for above-the-fold logos (e.g. header). Wastes preload budget in footer. */
+  priority?: boolean;
 }
 
-export default function Logo({ className = '', variant = 'full', size = 'md' }: LogoProps) {
+export default function Logo({ className = '', variant = 'full', size = 'md', priority = false }: LogoProps) {
   const sizes = {
-    sm: { width: variant === 'full' ? 200 : 50, height: 65 },
-    md: { width: variant === 'full' ? 280 : 70, height: 70 },
-    lg: { width: variant === 'full' ? 350 : 90, height: 90 },
+    sm: { width: variant === 'full' ? 160 : 40, height: 52 },
+    md: { width: variant === 'full' ? 220 : 55, height: 56 },
+    lg: { width: variant === 'full' ? 340 : 80, height: 100 },
   };
 
   const { width, height } = sizes[size];
@@ -25,7 +27,7 @@ export default function Logo({ className = '', variant = 'full', size = 'md' }: 
       width={width}
       height={height}
       className={className}
-      priority
+      priority={priority}
       style={{ objectFit: 'contain' }}
     />
   );

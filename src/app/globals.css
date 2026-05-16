@@ -71,6 +71,12 @@
   }
 }
 
+/* Particle float — compositor-thread animation for ParticleField */
+@keyframes particleFloat {
+  0%, 100% { transform: translateY(0); opacity: 0.2; }
+  50%       { transform: translateY(-24px); opacity: 0.5; }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 10px;

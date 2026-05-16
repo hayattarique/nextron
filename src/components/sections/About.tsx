@@ -37,15 +37,19 @@ export default function About() {
           {/* Section Header */}
           <motion.div variants={fadeUp} className="text-center max-w-3xl mx-auto space-y-4">
             <span className="text-industrial-blue font-semibold text-sm uppercase tracking-wider">
-              About Nextron
+              Company Overview
             </span>
             <h2 className="heading-2 text-white">
-              Engineered for Excellence in Critical Environments
+              Skilled E&I Manpower and Field Services
             </h2>
             <p className="body-large">
-              Three decades of proven expertise delivering mission-critical
-              electrical and instrumentation solutions for the world&apos;s most
-              demanding industrial operations.
+              Nextron provides instrument technician supply, calibration services,
+              loop checking, maintenance support, and commissioning services for
+              oil & gas, petrochemical, and power plants.
+            </p>
+            <p className="body-large">
+              We support EPC contractors, operating companies, and maintenance
+              teams during normal operation, shutdowns, and project phases.
             </p>
           </motion.div>
 
@@ -90,10 +94,9 @@ export default function About() {
                     </p>
                     <p>
                       Our team combines deep industry knowledge with
-                      cutting-edge technical capabilities to support the entire
-                      project lifecycle—from initial design and engineering
-                      through installation, commissioning, and long-term
-                      maintenance support.
+                      disciplined field execution to support the entire project
+                      lifecycle—from manpower supply and calibration through
+                      commissioning and maintenance support.
                     </p>
                   </div>
                 </div>
@@ -133,33 +136,29 @@ export default function About() {
                       <li className="flex items-start space-x-3">
                         <span className="w-1.5 h-1.5 bg-industrial-blue rounded-full mt-2 flex-shrink-0" />
                         <span>
-                          <strong className="text-white">Electrical Systems:</strong> Complete
-                          power distribution, motor control, VFD integration,
-                          and emergency power solutions
+                          <strong className="text-white">Manpower Supply:</strong> Skilled instrument technicians,
+                          electrical supervisors, and field crews for site work.
                         </span>
                       </li>
                       <li className="flex items-start space-x-3">
                         <span className="w-1.5 h-1.5 bg-industrial-blue rounded-full mt-2 flex-shrink-0" />
                         <span>
-                          <strong className="text-white">Instrumentation:</strong> Process
-                          measurement, control valves, analytical systems, and
-                          DCS/PLC/SCADA integration
+                          <strong className="text-white">Calibration:</strong> Field instrument and control valve
+                          calibration using certified equipment.
                         </span>
                       </li>
                       <li className="flex items-start space-x-3">
                         <span className="w-1.5 h-1.5 bg-industrial-blue rounded-full mt-2 flex-shrink-0" />
                         <span>
-                          <strong className="text-white">Commissioning:</strong> Systematic
-                          pre-commissioning, loop checks, FAT/SAT, and startup
-                          support services
+                          <strong className="text-white">Loop Checking:</strong> Signal verification,
+                          interlock testing, and pre-commissioning validation.
                         </span>
                       </li>
                       <li className="flex items-start space-x-3">
                         <span className="w-1.5 h-1.5 bg-industrial-blue rounded-full mt-2 flex-shrink-0" />
                         <span>
-                          <strong className="text-white">Maintenance:</strong> Planned
-                          preventive programs, turnaround support, and 24/7
-                          emergency response
+                          <strong className="text-white">Maintenance Support:</strong> Fault diagnostics,
+                          shutdown assistance, and emergency breakdown response.
                         </span>
                       </li>
                     </ul>
@@ -199,12 +198,11 @@ export default function About() {
                 </p>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
                   {[
-                    'Oil & Gas Production',
-                    'Petroleum Refineries',
-                    'Gas Processing & LNG',
-                    'Power Generation',
-                    'Petrochemical Plants',
-                    'Heavy Manufacturing',
+                    'Oil & Gas Processing Plants',
+                    'Refineries',
+                    'Petrochemical Complexes',
+                    'Power Generation Plants',
+                    'Fertilizer & Chemical Plants',
                   ].map((industry, index) => (
                     <motion.div
                       key={index}

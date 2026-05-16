@@ -113,36 +113,31 @@ export function RadialPulse() {
 
 /**
  * Particle Field
- * Subtle floating particles for depth
+ * Deterministic floating particles — values are seeded constants so server
+ * render and client hydration produce identical markup (no hydration mismatch).
+ * Animation runs on the CSS compositor thread, not the JS main thread.
  */
-export function ParticleField() {
-  const particles = [...Array(20)].map(() => ({
-    x: Math.random() * 100,
-    y: Math.random() * 100,
-    size: Math.random() * 3 + 1,
-    duration: Math.random() * 10 + 10,
-  }));
+const PARTICLES = Array.from({ length: 12 }, (_, i) => ({
+  x: (i * 37 + 11) % 97,
+  y: (i * 53 + 7) % 93,
+  size: (i % 3) + 1.5,
+  delay: i * 0.4,
+  duration: 14 + (i % 4) * 2,
+}));
 
+export function ParticleField() {
   return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {particles.map((particle, i) => (
-        <motion.div
+    <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
+      {PARTICLES.map((p, i) => (
+        <div
           key={i}
-          className="absolute bg-industrial-blue/20 rounded-full blur-sm"
+          className="absolute rounded-full bg-industrial-blue/20 blur-sm"
           style={{
-            left: `${particle.x}%`,
-            top: `${particle.y}%`,
-            width: particle.size,
-            height: particle.size,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.5, 0.2],
-          }}
-          transition={{
-            duration: particle.duration,
-            repeat: Infinity,
-            ease: 'linear',
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            animation: `particleFloat ${p.duration}s ${p.delay}s ease-in-out infinite`,
           }}
         />
       ))}

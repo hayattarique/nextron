@@ -3,18 +3,17 @@
 import { motion } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef } from 'react';
-import { Shield, ShieldCheck, Award, FileCheck, Clipboard, Clock } from 'lucide-react';
+import { Shield, ShieldCheck, Award, FileCheck, Clipboard, Clock, Users, LucideIcon } from 'lucide-react';
 import { whyChooseItems } from '@/lib/data';
-import { easings, durations, staggers, distances, progressiveStagger } from '@/lib/animations';
+import { easings, durations, staggers, distances, progressiveStagger } from '@/lib/motion';
 
-const iconMap = {
-  Shield: Shield,
-  ShieldCheck: ShieldCheck,
-  Award: Award,
-  FileCheck: FileCheck,
-  Clipboard: Clipboard,
-  Clock: Clock,
+const WHY_ICONS: Record<string, LucideIcon> = {
+  Shield, ShieldCheck, Award, FileCheck, Clipboard, Clock, Users,
 };
+
+function getWhyIcon(name: string): LucideIcon {
+  return WHY_ICONS[name] ?? Shield;
+}
 
 export default function WhyChoose() {
   const ref = useRef(null);
@@ -75,7 +74,7 @@ export default function WhyChoose() {
           {/* Main Grid */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {whyChooseItems.map((item) => {
-              const Icon = iconMap[item.icon as keyof typeof iconMap];
+              const Icon = getWhyIcon(item.icon);
 
               return (
                 <motion.div

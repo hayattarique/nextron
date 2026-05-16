@@ -4,8 +4,10 @@ import { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import { navLinks } from '@/lib/data';
 import { motion, AnimatePresence } from 'framer-motion';
-import { easings, durations } from '@/lib/animations';
+import { easings, durations } from '@/lib/motion';
 import Logo from '@/components/ui/Logo';
+import { useReducedMotion } from '@/providers/MotionPreferenceProvider';
+import { scrollToSection } from '@/lib/utils';
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -20,19 +22,9 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      const offset = 80;
-      const elementPosition = element.getBoundingClientRect().top;
-      const offsetPosition = elementPosition + window.pageYOffset - offset;
-
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-      setIsMobileMenuOpen(false);
-    }
+  const handleNavClick = (href: string) => {
+    scrollToSection(href);
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -53,10 +45,10 @@ export default function Header() {
             className="flex items-center justify-start flex-shrink-0 -ml-1 md:ml-0"
           >
             <div className="hidden md:block">
-              <Logo variant="full" size="md" />
+              <Logo variant="full" size="md" priority className="-mt-1.5" />
             </div>
             <div className="block md:hidden">
-              <Logo variant="full" size="sm" />
+              <Logo variant="full" size="sm" priority className="-mt-1.5" />
             </div>
           </motion.div>
 
@@ -90,7 +82,7 @@ export default function Header() {
               </motion.button>
             ))}
             <motion.button
-              onClick={() => scrollToSection('#contact')}
+              onClick={() => handleNavClick('#contact')}
               className="btn-primary"
               whileHover={{ 
                 scale: 1.02, 
@@ -152,7 +144,7 @@ export default function Header() {
                 {navLinks.map((link) => (
                   <motion.button
                     key={link.href}
-                    onClick={() => scrollToSection(link.href)}
+                    onClick={() => handleNavClick(link.href)}
                     className="text-gray-300 hover:text-industrial-blue transition-colors duration-300 font-medium text-left py-2"
                     variants={{
                       hidden: { opacity: 0, x: -20 },
@@ -167,7 +159,7 @@ export default function Header() {
                   </motion.button>
                 ))}
                 <motion.button
-                  onClick={() => scrollToSection('#contact')}
+                  onClick={() => handleNavClick('#contact')}
                   className="btn-primary w-full"
                   variants={{
                     hidden: { opacity: 0, y: 20 },

@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { useInView } from 'framer-motion';
 import { useRef, useState } from 'react';
-import { Zap, Gauge, Play, Wrench, ChevronDown, Check } from 'lucide-react';
+import { Zap, Gauge, Play, Wrench, Users, SlidersHorizontal, Activity, HardDrive, ChevronDown, Check, LucideIcon } from 'lucide-react';
 import { services } from '@/lib/data';
 import { 
   staggerContainer,
@@ -19,12 +19,13 @@ import {
 } from '@/lib/motion';
 import { RadialPulse } from '@/components/ui/AnimatedBackgrounds';
 
-const iconMap = {
-  Zap: Zap,
-  Gauge: Gauge,
-  Play: Play,
-  Wrench: Wrench,
+const ICON_REGISTRY: Record<string, LucideIcon> = {
+  Zap, Gauge, Play, Wrench, Users, SlidersHorizontal, Activity, HardDrive,
 };
+
+function getServiceIcon(name: string): LucideIcon {
+  return ICON_REGISTRY[name] ?? Wrench;
+}
 
 export default function Services() {
   const ref = useRef(null);
@@ -69,7 +70,7 @@ export default function Services() {
           {/* Services Grid */}
           <div className="grid md:grid-cols-2 gap-6">
             {services.map((service, index) => {
-              const Icon = iconMap[service.icon as keyof typeof iconMap];
+              const Icon = getServiceIcon(service.icon);
               const isExpanded = expandedService === service.id;
 
               return (

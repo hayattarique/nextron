@@ -17,7 +17,6 @@
  */
 
 import { Variants, Transition, MotionProps } from 'framer-motion';
-import { useEffect, useState } from 'react';
 
 // ═══════════════════════════════════════════════════════════════════════════
 // EASING CURVES - Industrial Precision
@@ -452,25 +451,11 @@ export const rotateSlow = {
 // ═══════════════════════════════════════════════════════════════════════════
 
 /**
- * Hook to detect user's reduced motion preference
+ * useReducedMotion is now provided via MotionPreferenceProvider context.
+ * Import from '@/providers/MotionPreferenceProvider' in all components.
+ * This re-export is kept only for backward compatibility during migration.
  */
-export function useReducedMotion(): boolean {
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleChange = (event: MediaQueryListEvent) => {
-      setPrefersReducedMotion(event.matches);
-    };
-
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
-
-  return prefersReducedMotion;
-}
+export { useReducedMotion } from '@/providers/MotionPreferenceProvider';
 
 /**
  * Get animation props based on reduced motion preference
@@ -582,6 +567,48 @@ export const heroCTA: Variants = {
 // ═══════════════════════════════════════════════════════════════════════════
 // EXPORT CONFIGURATION OBJECT
 // ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * PROGRESSIVE STAGGER - Icon → Title → Description
+ * Sequential reveal for card internals
+ */
+export const progressiveStagger = {
+  icon: {
+    hidden: { opacity: 0, scale: 0.8 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: durations.fast,
+        ease: easings.mechanical,
+      },
+    },
+  },
+  title: {
+    hidden: { opacity: 0, y: distances.subtle },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: durations.normal,
+        ease: easings.enter,
+        delay: 0.1,
+      },
+    },
+  },
+  description: {
+    hidden: { opacity: 0, y: distances.subtle },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: durations.normal,
+        ease: easings.enter,
+        delay: 0.2,
+      },
+    },
+  },
+};
 
 export const motionConfig = {
   easings,

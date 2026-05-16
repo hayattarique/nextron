@@ -159,8 +159,8 @@ export default function Hero() {
               className="grid grid-cols-3 gap-8 pt-16 max-w-3xl mx-auto"
             >
               {[
-                { value: '30+', label: 'Years Experience' },
-                { value: '500+', label: 'Projects Delivered' },
+                { value: '20+', label: 'Years Experience' },
+                { value: '50+', label: 'Projects Delivered' },
                 { value: '99.8%', label: 'Uptime Achieved' },
               ].map((stat, i) => (
                 <motion.div

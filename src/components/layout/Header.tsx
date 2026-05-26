@@ -36,19 +36,19 @@ export default function Header() {
       }`}
     >
       <nav className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+        <div className="flex items-center justify-between h-28">
           {/* Logo */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="flex items-center justify-start flex-shrink-0 -ml-1 md:ml-0"
+            className="flex items-center justify-start flex-shrink-0 -ml-1 lg:ml-0"
           >
-            <div className="hidden md:block">
-              <Logo variant="full" size="md" priority className="-mt-1.5" />
+            <div className="hidden lg:block">
+              <Logo size="md" priority />
             </div>
-            <div className="block md:hidden">
-              <Logo variant="full" size="sm" priority className="-mt-1.5" />
+            <div className="block lg:hidden">
+              <Logo size="sm" priority />
             </div>
           </motion.div>
 
@@ -57,13 +57,13 @@ export default function Header() {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="hidden md:flex items-center space-x-8"
+            className="hidden lg:flex items-center space-x-8"
           >
             {navLinks.map((link, index) => (
               <motion.button
                 key={link.href}
                 onClick={() => scrollToSection(link.href)}
-                className="text-gray-300 hover:text-industrial-blue transition-colors duration-300 font-medium relative"
+                className="text-gray-300 hover:text-industrial-blue transition-colors duration-300 font-medium relative whitespace-nowrap"
                 whileHover={{ 
                   y: -2,
                   transition: { duration: durations.fast, ease: easings.mechanical },
@@ -83,7 +83,7 @@ export default function Header() {
             ))}
             <motion.button
               onClick={() => handleNavClick('#contact')}
-              className="btn-primary"
+              className="btn-primary whitespace-nowrap flex-shrink-0"
               whileHover={{ 
                 scale: 1.02, 
                 y: -2,
@@ -102,7 +102,7 @@ export default function Header() {
           {/* Mobile Menu Button */}
           <motion.button
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            className="md:hidden text-white p-2"
+            className="lg:hidden text-white p-2"
             aria-label="Toggle menu"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -126,7 +126,7 @@ export default function Header() {
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: durations.normal }}
-            className="md:hidden bg-industrial-navy/98 backdrop-blur-md border-t border-industrial-steel/30"
+            className="lg:hidden bg-industrial-navy/98 backdrop-blur-md border-t border-industrial-steel/30"
           >
             <div className="section-container py-6">
               <motion.div 

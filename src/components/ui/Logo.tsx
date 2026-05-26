@@ -11,24 +11,26 @@ interface LogoProps {
   priority?: boolean;
 }
 
-export default function Logo({ className = '', variant = 'full', size = 'md', priority = false }: LogoProps) {
-  const sizes = {
-    sm: { width: variant === 'full' ? 160 : 40, height: 52 },
-    md: { width: variant === 'full' ? 220 : 55, height: 56 },
-    lg: { width: variant === 'full' ? 340 : 80, height: 100 },
-  };
+const logoWidths = {
+  sm: 130,
+  md: 170,
+  lg: 240,
+};
 
-  const { width, height } = sizes[size];
+export default function Logo({ className = '', size = 'md', priority = false }: LogoProps) {
+  const w = logoWidths[size];
 
   return (
-    <Image
-      src={logoImage}
-      alt="NEXTRON - Electrical & Instrumentation"
-      width={width}
-      height={height}
-      className={className}
-      priority={priority}
-      style={{ objectFit: 'contain' }}
-    />
+    <div className={`inline-flex items-center flex-shrink-0 ${className}`}>
+      <Image
+        src={logoImage}
+        alt="NEXTRON - Electrical & Instrumentation"
+        width={logoImage.width}
+        height={logoImage.height}
+        sizes={`(max-width: 768px) ${logoWidths.sm}px, ${w}px`}
+        priority={priority}
+        style={{ width: w, height: 'auto' }}
+      />
+    </div>
   );
 }
